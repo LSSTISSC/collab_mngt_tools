@@ -7,7 +7,6 @@ import time
 import requests
 import json
 import argparse
-import tqdm
 
 # Extract the API token from the environment
 GITHUB_API_TOKEN = os.environ.get('GITHUB_API_TOKEN')
@@ -32,7 +31,7 @@ def invite_user(email):
     response = requests.post(url, headers=headers, data=json.dumps(data))
 
     if response.status_code == 201:
-        print('Invitation sent to {}'.format(email))
+        pass # print('Invitation sent to {}'.format(email))
     else:
         print('Error sending invitation to {}: {}'.format(email, response.text))
 
@@ -43,7 +42,7 @@ def invite_users(filename):
     with open(filename, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
 
-        for row in tqdm.tqdm(reader):
+        for row in reader:
             # Extract the email from the row, and send the invite using the REST API
             email = row['Email']
             if '@' not in email:
